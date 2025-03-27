@@ -248,10 +248,11 @@
 
                 // Loop through Commandment Numbers
                 for (let i = 1; i <= MAX_COMMANDMENT_NUM; i++) {
+                     // Function to create and populate a cell
                      const createCell = (colNum, result, denominationKey) => {
                         const cell = document.createElement('div');
                         cell.className = 'grid-cell';
-                        // Set inline style for grid column - this will be overridden by CSS below 768px
+                        // Set inline style for grid column - CSS overrides below 768px
                         cell.style.gridColumn = `${colNum}`;
                         cell.style.gridRow = `${i}`;
 
@@ -260,7 +261,14 @@
                             let cellHTML = '';
                             if (parts.preamble) { cellHTML += `<div class="preamble-text">${parts.preamble}</div>`; }
                             if (parts.commandments.length > 0) { cellHTML += parts.commandments.map(text => `<p class="commandment-text">${text || "[Text missing]"}</p>`).join(''); }
-                            if (cellHTML.length > 0 || parts.preamble) { cellHTML += `<span class="translation-note">(Using ${TRANSLATIONS[result.translationKeyUsed] || result.translationKeyUsed})</span>`; }
+
+                            // *** MODIFICATION HERE ***
+                            // Add translation note using the KEY only if there was content
+                            if (cellHTML.length > 0 || parts.preamble) {
+                                cellHTML += `<span class="translation-note">(${result.translationKeyUsed || 'N/A'})</span>`; // Use the key directly
+                            }
+                            // *** END MODIFICATION ***
+
                             cell.innerHTML = cellHTML || ' '; // Use non-breaking space if empty
                         } else {
                             if(denominationKey){ cell.innerHTML = `<p class="placeholder">${result.error || 'Data unavailable'}</p>`; }
@@ -268,6 +276,7 @@
                         }
                         return cell;
                     };
+                     // Note: Pass the correct result object to createCell
                      comparisonGrid.appendChild(createCell(1, result1, selectedDenominationKey1));
                      comparisonGrid.appendChild(createCell(2, result2, selectedDenominationKey2));
                 }
@@ -275,7 +284,7 @@
                 updateChooserSelection(chooserCol1, selectedDenominationKey1);
                 updateChooserSelection(chooserCol2, selectedDenominationKey2);
             } // End updateDisplay
-
+            
             // --- Other Helpers and Event Handlers ---
             function updateChooserSelection(chooserElement, selectedKey) {
                  chooserElement.querySelectorAll('span[data-key]').forEach(span => {
