@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decalogue Explorer</title> <!-- Updated Title -->
+
+    <!-- Load ALL Translation Data Files -->
+    <!-- NOTE: Ensure these files exist in the same directory -->
+    <script src="web.js" defer></script> <!-- Default/Fallback -->
+    <script src="kjv.js" defer></script>
+    <script src="asv.js" defer></script>
+    <script src="darby.js" defer></script>
+    <script src="dra.js" defer></script>
+    <script src="ylt.js" defer></script>
+    <script src="rva.js" defer></script>
+    <script src="vulgate.js" defer></script>
+
+    <!-- CSS Styles -->
+    <style>
+        /* --- Basic Styling --- */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 2em; background-color: #f4f4f4; color: #333; line-height: 1.6; }
+        .container { max-width: 1600px; /* Wider for grid */ margin: 0 auto; background-color: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; margin-bottom: 1em; color: #003366; }
+        h2 { /* Titles Above Grid */
+             margin: 0; font-size: 1.2em; color: #0056b3; padding-bottom: 0.3em; text-align: center;
+        }
+        footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px solid #eee; font-size: 0.85em; color: #6c757d; }
+
+        /* --- Selectors Area Layout --- */
+        .selectors-area {
+            display: flex;
+            justify-content: space-around; /* Space out the two control groups */
+            gap: 2em;
+            margin-bottom: 2em;
+            padding: 1em;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        .selector-group {
+             display: flex;
+             flex-direction: column;
+             gap: 0.8em;
+             align-items: center; /* Center items within the group */
+             min-width: 350px; /* Ensure controls have space */
+             flex: 1; /* Allow groups to grow */
+        }
+        /* Denomination chooser/pill styling */
+        .denomination-chooser { text-align: center; min-height: 30px; /* Prevent collapsing when empty */ }
+        .denomination-chooser span { display: inline-block; padding: 0.4em 0.8em; margin: 0.2em; background-color: #fff; border: 1px solid #ccc; border-radius: 15px; cursor: pointer; transition: background-color 0.2s, color 0.2s, border-color 0.2s; font-size: 0.9em; }
+        .denomination-chooser span:hover { background-color: #d0e0ff; border-color: #a0c0ff; }
+        .denomination-chooser span.selected { background-color: #0056b3; color: #fff; border-color: #004085; font-weight: bold; }
+        .denomination-chooser .placeholder { font-size: 0.9em; color: #6c757d; }
+        /* Translation selector styling */
+        .translation-select-wrapper { text-align: center; }
+        .translation-select-wrapper label { margin-right: 0.5em; font-size: 0.9em; font-weight: 500; color: #495057; }
+        .translation-select-wrapper select { padding: 0.4em 0.6em; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.9em; max-width: 250px; }
+
+
+        /* --- Titles Area Layout --- */
+        .titles-area {
+             display: grid;
+             grid-template-columns: 1fr 1fr; /* Match grid columns */
+             gap: 2em; /* Match grid column gap */
+             margin-bottom: 1em;
+             padding: 0 1em; /* Align roughly with grid padding */
+             min-height: 1.5em; /* Prevent collapse */
+        }
+
+
+        /* --- Comparison Grid Layout --- */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Create 2 main columns */
+            grid-auto-rows: auto; /* Define rows automatically based on content */
+            gap: 1em 2em; /* row-gap column-gap */
+            border-top: 2px solid #dee2e6; /* Separator from titles */
+            padding-top: 1em;
+        }
+
+        /* --- Grid Cell Styling --- */
+        .grid-cell {
+            padding: 1em;
+            background-color: #fdfdff;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            align-self: start; /* Align content to the top */
+            min-height: 50px; /* Ensure cells have some minimum height */
+        }
+        /* Cell specific heading (Not currently used, but could be) */
+        /* .grid-cell h3 { margin-top: 0; font-size: 1em; color: #333; border-bottom: 1px dashed #ccc; padding-bottom: 0.3em; margin-bottom: 0.8em; } */
+
+
+        /* Content Styling (Preamble, Commandments, etc) */
+        .preamble-text { font-style: italic; color: #555; margin-bottom: 1em; padding: 0.5em; background-color: #f0f0f0; border-left: 3px solid #6c757d; border-radius: 3px; }
+        .commandment-text { margin-bottom: 0.8em; padding-left: 0.5em; border-left: 3px solid #007bff; }
+        .commandment-text:last-child { margin-bottom: 0; }
+        .placeholder { color: #6c757d; font-style: italic; text-align: center; padding: 2em 0; }
+        .error-message { color: #dc3545; font-weight: bold; text-align: center; padding: 1em; border: 1px solid #f5c6cb; background-color: #f8d7da; border-radius: 5px;}
+        .translation-note { display: block; /* Make it block */ font-size: 0.75em; color: #aaa; margin-top: 0.8em; text-align: right; }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Decalogue Explorer</h1>
+
+        <!-- Selection Controls Area -->
+        <div class="selectors-area">
+            <!-- Column 1 Controls -->
+            <div class="selector-group">
+                <div class="denomination-chooser" id="chooser-col1">
+                    <!-- Clickable denomination names populated by JS -->
+                    <span class="placeholder">Loading...</span>
+                </div>
+                <div class="translation-select-wrapper">
+                    <label for="translation-select-col1">Translation 1:</label>
+                    <select id="translation-select-col1"></select>
+                </div>
+            </div>
+            <!-- Column 2 Controls -->
+             <div class="selector-group">
+                <div class="denomination-chooser" id="chooser-col2">
+                    <!-- Clickable denomination names populated by JS -->
+                     <span class="placeholder">Loading...</span>
+                </div>
+                <div class="translation-select-wrapper">
+                    <label for="translation-select-col2">Translation 2:</label>
+                    <select id="translation-select-col2"></select>
+                </div>
+            </div>
+        </div> <!-- End Selectors Area -->
+
+        <!-- Titles Area (Above Grid) -->
+        <div class="titles-area">
+             <h2 id="title-col1">Version 1</h2>
+             <h2 id="title-col2">Version 2</h2>
+        </div>
+
+        <!-- Comparison Grid Area -->
+        <div id="comparison-grid" class="comparison-grid">
+            <!-- Grid cells populated by JavaScript -->
+             <div class="placeholder" style="grid-column: 1 / span 2;">Select versions above to compare.</div>
+        </div> <!-- End Comparison Grid -->
+
+
+        <footer>
+            <p>Texts sourced from various translations. Ensure accuracy by consulting primary sources. Educational use only.</p>
+        </footer>
+
+    </div> <!-- End Container -->
+
+
+     <!-- Main Application Script -->
+     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Constants ---
+            const TRANSLATIONS = { // Display names map
+                "ASV": "American Standard Version (ASV)", "DARBY": "Darby Translation (DARBY)",
+                "DRA": "Douay-Rheims 1899 (DRA)", "KJV": "King James Version (KJV)",
+                "WEB": "World English Bible (WEB)", "YLT": "Young's Literal Translation (YLT)",
+                "RVA": "Reina-Valera Antigua (RVA)", "VULGATE": "Biblia Sacra Vulgata (VULGATE)"
+            };
+            const DEFAULT_TRANSLATION_KEY = 'WEB'; // Fallback Key
+
+            // --- Mapping Translation KEY to Global Data Variable Name ---
+            // !! Assumes global variables like 'webTranslationData', 'kjvTranslationData' are defined in the loaded JS files !!
+            const TRANSLATION_DATA_MAP = {
+                 "WEB": typeof webTranslationData !== 'undefined' ? webTranslationData : null,
+                 "KJV": typeof kjvTranslationData !== 'undefined' ? kjvTranslationData : null,
+                 "ASV": typeof asvTranslationData !== 'undefined' ? asvTranslationData : null,
+                 "DARBY": typeof darbyTranslationData !== 'undefined' ? darbyTranslationData : null,
+                 "DRA": typeof draTranslationData !== 'undefined' ? draTranslationData : null,
+                 "YLT": typeof yltTranslationData !== 'undefined' ? yltTranslationData : null,
+                 "RVA": typeof rvaTranslationData !== 'undefined' ? rvaTranslationData : null,
+                 "VULGATE": typeof vulgateTranslationData !== 'undefined' ? vulgateTranslationData : null
+             };
+
+             // Maximum commandment number to iterate through for rows
+             const MAX_COMMANDMENT_NUM = 10;
+
+            // --- State Variables ---
+            let selectedDenominationKey1 = null;
+            let selectedDenominationKey2 = null;
+            let selectedTranslationKey1 = DEFAULT_TRANSLATION_KEY;
+            let selectedTranslationKey2 = DEFAULT_TRANSLATION_KEY;
+
+            // --- DOM References ---
+            const chooserCol1 = document.getElementById('chooser-col1');
+            const chooserCol2 = document.getElementById('chooser-col2');
+            const translationSelectCol1 = document.getElementById('translation-select-col1');
+            const translationSelectCol2 = document.getElementById('translation-select-col2');
+            const comparisonGrid = document.getElementById('comparison-grid'); // Grid container
+            const titleCol1 = document.getElementById('title-col1'); // Title elements
+            const titleCol2 = document.getElementById('title-col2');
+
+
+             // --- Helper: Get Denomination Data Safely ---
+             function getDenominationData(denominationKey, translationKey) {
+                let translationData = TRANSLATION_DATA_MAP[translationKey];
+                let actualTranslationKeyUsed = translationKey;
+
+                // Fallback if selected translation data is missing
+                if (!translationData) {
+                    translationData = TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY];
+                    actualTranslationKeyUsed = DEFAULT_TRANSLATION_KEY;
+                }
+                 // If even fallback is missing, return null
+                if (!translationData) return { data: null, translationKeyUsed: null, error: `Missing default data (${DEFAULT_TRANSLATION_KEY})` };
+
+                const denominationData = translationData[denominationKey];
+                // Use denominationKey from arguments for error message if denominationData is missing
+                if (!denominationData) return { data: null, translationKeyUsed: actualTranslationKeyUsed, error: `Missing denomination (${denominationKey || 'None selected'}) in translation ${actualTranslationKeyUsed}` };
+
+
+                // Return the specific denomination data object and the key actually used
+                return { data: denominationData, translationKeyUsed: actualTranslationKeyUsed, error: null };
+             }
+
+             // --- Helper: Get Commandment Text Parts for a Specific Number ---
+             function getCommandmentPartsForNumber(denominationData, targetNumber, denominationKey) { // Pass denominationKey for split logic
+                 const result = { preamble: null, commandments: [] };
+                 if (!denominationData || !denominationData.commandments) return result;
+
+                 // Handle Preamble specifically (often associated with #1 conceptually, especially Jewish)
+                 if (targetNumber === 1 && denominationData.preamble && denominationKey === 'Jewish') { // More specific check
+                    result.preamble = denominationData.preamble;
+                 }
+                  // Also handle Protestant preamble for #1
+                 if (targetNumber === 1 && denominationData.preamble && denominationKey === 'Protestant') {
+                     result.preamble = denominationData.preamble;
+                 }
+
+
+                 denominationData.commandments.forEach((cmdText, index) => {
+                     const numberMatch = cmdText.match(/^(\d+)\.?\s/);
+                     const cmdNumber = numberMatch ? parseInt(numberMatch[1], 10) : (index + 1); // Guess index+1 if no number found
+
+                     // Basic Match
+                     if (cmdNumber === targetNumber) {
+                         // Exclude Catholic/Lutheran #9 (coveting) here, handle in targetNumber 10
+                          if (!(targetNumber === 9 && (denominationKey === 'Catholic' || denominationKey === 'Lutheran') && /covet|desire|codiciar|concupisces/i.test(cmdText))) {
+                             result.commandments.push(cmdText);
+                         }
+                     }
+                     // Special Coveting Alignment: If target is 10, include Catholic/Lutheran #9
+                     else if (targetNumber === 10 && cmdNumber === 9 && (denominationKey === 'Catholic' || denominationKey === 'Lutheran')) {
+                         if (/covet|desire|codiciar|concupisces/i.test(cmdText)) {
+                             result.commandments.push(cmdText); // Add the #9 covet text to row 10
+                         }
+                     }
+                 });
+
+                 return result;
+             }
+
+
+            // --- Helper: Update Display (Grid Logic) ---
+            function updateDisplay() {
+                // Clear previous grid content
+                comparisonGrid.innerHTML = '';
+
+                // Get data for both selections
+                const result1 = getDenominationData(selectedDenominationKey1, selectedTranslationKey1);
+                const result2 = getDenominationData(selectedDenominationKey2, selectedTranslationKey2);
+
+                // Update Titles using name from retrieved data or the key
+                titleCol1.textContent = result1.data?.name || selectedDenominationKey1 || 'Version 1';
+                titleCol2.textContent = result2.data?.name || selectedDenominationKey2 || 'Version 2';
+
+
+                // Check for major errors (missing default data) - needs robust check
+                 let hasFatalError = false;
+                 if (result1.error && !result1.data && result1.error.includes("Missing default data")) hasFatalError = true;
+                 if (result2.error && !result2.data && result2.error.includes("Missing default data")) hasFatalError = true;
+
+                 if(hasFatalError){
+                     comparisonGrid.innerHTML = `<div class="error-message" style="grid-column: 1 / span 2;">Fatal Error: Default translation data file (${DEFAULT_TRANSLATION_KEY}.js) missing or invalid.</div>`;
+                     return;
+                 }
+
+                // Loop through Commandment Numbers (1 to 10) to create rows
+                for (let i = 1; i <= MAX_COMMANDMENT_NUM; i++) {
+                    // Function to create and populate a cell
+                    const createCell = (colNum, result, denominationKey) => {
+                        const cell = document.createElement('div');
+                        cell.className = 'grid-cell';
+                        cell.style.gridColumn = `${colNum}`;
+                        cell.style.gridRow = `${i}`;
+
+                        if (result.data) {
+                             // Pass denominationKey to helper for split logic
+                            const parts = getCommandmentPartsForNumber(result.data, i, denominationKey);
+                            let cellHTML = '';
+                            if (parts.preamble) {
+                                cellHTML += `<div class="preamble-text">${parts.preamble}</div>`;
+                            }
+                            if (parts.commandments.length > 0) {
+                                cellHTML += parts.commandments.map(text => `<p class="commandment-text">${text || "[Text missing]"}</p>`).join('');
+                            } else if (!parts.preamble && parts.commandments.length === 0) {
+                                // Only add placeholder if *nothing* (preamble or cmd) is present for this row
+                                // cellHTML += `<p class="placeholder">-</p>`; // Optional placeholder for truly empty rows
+                            }
+                            // Add translation note only if there was content
+                            if (cellHTML.length > 0 || parts.preamble) {
+                                 cellHTML += `<span class="translation-note">(Using ${TRANSLATIONS[result.translationKeyUsed] || result.translationKeyUsed})</span>`;
+                            } else {
+                                 cellHTML = ``; // Keep cell visually empty if no content for this number/tradition
+                            }
+
+                            cell.innerHTML = cellHTML || ' '; // Use non-breaking space if completely empty to maintain cell structure
+                        } else {
+                            // Display error or initial placeholder only if denomination was selected but data failed
+                            if(denominationKey){
+                                 cell.innerHTML = `<p class="placeholder">${result.error || 'Data unavailable'}</p>`;
+                            } else {
+                                 cell.innerHTML = ` `; // Keep empty if no selection yet
+                            }
+                        }
+                        return cell;
+                    };
+
+                    // Create and append cells for row i
+                    comparisonGrid.appendChild(createCell(1, result1, selectedDenominationKey1));
+                    comparisonGrid.appendChild(createCell(2, result2, selectedDenominationKey2));
+                }
+
+                // Update selected styles in denomination choosers
+                updateChooserSelection(chooserCol1, selectedDenominationKey1);
+                updateChooserSelection(chooserCol2, selectedDenominationKey2);
+            }
+
+
+            // --- Other Helpers and Event Handlers ---
+            function updateChooserSelection(chooserElement, selectedKey) {
+                 chooserElement.querySelectorAll('span[data-key]').forEach(span => {
+                     span.classList.toggle('selected', span.dataset.key === selectedKey);
+                 });
+            }
+
+            function populateTranslationSelect(selectElement) {
+                 Object.entries(TRANSLATIONS).forEach(([key, name]) => {
+                     const option = document.createElement('option'); option.value = key; option.textContent = name;
+                     if (key === DEFAULT_TRANSLATION_KEY) option.selected = true;
+                     selectElement.appendChild(option);
+                 });
+             }
+
+            function handleDenominationClick(event, columnNumber) {
+                const target = event.target;
+                if (target.tagName === 'SPAN' && target.dataset.key) {
+                    const key = target.dataset.key;
+                    // Prevent re-rendering if the same key is clicked again
+                    if (columnNumber === 1 && key === selectedDenominationKey1) return;
+                    if (columnNumber === 2 && key === selectedDenominationKey2) return;
+
+                    if (columnNumber === 1) selectedDenominationKey1 = key;
+                    else selectedDenominationKey2 = key;
+                    updateDisplay();
+                }
+            }
+
+            function handleTranslationChange(event, columnNumber) {
+                const selectedValue = event.target.value;
+                 if (columnNumber === 1) selectedTranslationKey1 = selectedValue;
+                 else selectedTranslationKey2 = selectedValue;
+                 updateDisplay(); // Re-render with the new translation
+            }
+
+
+            // --- Initialization Function ---
+            function initializeApp() {
+                // Check if default data loaded
+                 if (!TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]) {
+                     console.error(`Fatal Error: Default translation data (${DEFAULT_TRANSLATION_KEY}) not loaded! Check if ${DEFAULT_TRANSLATION_KEY}.js exists and defines its variable.`);
+                     comparisonGrid.innerHTML = `<div class="error-message" style="grid-column: 1 / span 2;">Fatal Error: Core data file missing. Cannot initialize application.</div>`;
+                     chooserCol1.innerHTML = ''; // Clear loading placeholder
+                     chooserCol2.innerHTML = '';
+                     return; // Stop initialization
+                 }
+
+
+                // Populate Translation Selectors
+                populateTranslationSelect(translationSelectCol1);
+                populateTranslationSelect(translationSelectCol2);
+
+                // Populate Denomination Choosers
+                chooserCol1.innerHTML = ''; // Clear loading placeholder
+                chooserCol2.innerHTML = '';
+                const denominationKeys = Object.keys(TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]);
+                denominationKeys.sort((a, b) => {
+                    const nameA = TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]?.[a]?.name || a;
+                    const nameB = TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]?.[b]?.name || b;
+                    return nameA.localeCompare(nameB);
+                });
+
+                denominationKeys.forEach(key => {
+                    const name = TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]?.[key]?.name || key;
+                    // Col 1
+                    const span1 = document.createElement('span'); span1.textContent = name; span1.dataset.key = key; chooserCol1.appendChild(span1);
+                    // Col 2
+                    const span2 = document.createElement('span'); span2.textContent = name; span2.dataset.key = key; chooserCol2.appendChild(span2);
+                });
+
+
+                // Add Event Listeners
+                chooserCol1.addEventListener('click', (event) => handleDenominationClick(event, 1));
+                chooserCol2.addEventListener('click', (event) => handleDenominationClick(event, 2));
+                translationSelectCol1.addEventListener('change', (event) => handleTranslationChange(event, 1));
+                translationSelectCol2.addEventListener('change', (event) => handleTranslationChange(event, 2));
+
+                // Read initial translation selections
+                selectedTranslationKey1 = translationSelectCol1.value;
+                selectedTranslationKey2 = translationSelectCol2.value;
+
+                // Initial render (will show placeholders in grid initially)
+                updateDisplay();
+            }
+
+            // --- Run Initialization ---
+            initializeApp();
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
