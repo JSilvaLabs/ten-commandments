@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. Title Tag Updated -->
     <title>Ten Commandment Versions</title>
 
     <!-- Load ALL Translation Data Files from translations/ folder -->
@@ -18,116 +17,99 @@
 
     <!-- CSS Styles -->
     <style>
-/* --- Basic Styling --- */
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 1em; background-color: #f4f4f4; color: #333; line-height: 1.6; }
-.container { max-width: 1600px; margin: 0 auto; background-color: #fff; padding: 1.5em; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-h1 { text-align: center; margin-bottom: 1em; color: #003366; font-size: 1.8em; }
-h2 { margin: 0; font-size: 1.15em; color: #0056b3; padding-bottom: 0.3em; text-align: center; font-weight: 600; /* Prevent shrinking */ flex-shrink: 0; }
-footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px solid #eee; font-size: 0.85em; color: #6c757d; }
+        /* --- Basic Styling --- */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 1em; background-color: #f4f4f4; color: #333; line-height: 1.6; }
+        .container { max-width: 1600px; margin: 0 auto; background-color: #fff; padding: 1.5em; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow-x: hidden; }
+        h1 { text-align: center; margin-bottom: 1em; color: #003366; font-size: 1.8em; }
+        /* Titles Styling */
+        h2 { margin: 0; font-size: 1.15em; color: #0056b3; padding: 0 0.2em 0.3em 0.2em; text-align: center; font-weight: 600; overflow-wrap: break-word; hyphens: auto; }
+        footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px solid #eee; font-size: 0.85em; color: #6c757d; }
 
-/* --- Selectors Area Layout --- */
-.selectors-area { display: flex; justify-content: space-around; gap: 2em; margin-bottom: 2em; padding: 1em; background-color: #e9ecef; border-radius: 8px; flex-wrap: wrap; }
-.selector-group { display: flex; flex-direction: column; gap: 0.8em; align-items: center; min-width: 300px; flex: 1; }
-/* Denomination chooser/pill styling */
-.denomination-chooser { text-align: center; min-height: 30px; width: 100%; /* Ensure it takes space */ }
-.denomination-chooser span { display: inline-block; padding: 0.4em 0.8em; margin: 0.2em; background-color: #fff; border: 1px solid #ccc; border-radius: 15px; cursor: pointer; font-size: 0.85em; transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
-.denomination-chooser span:hover:not(.selected) { background-color: #e2e6ea; border-color: #adb5bd; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
-.denomination-chooser span.selected { background-color: #0056b3; color: #fff; border-color: #004085; font-weight: bold; box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset; }
-.denomination-chooser .placeholder { font-size: 0.9em; color: #6c757d; }
-/* Translation selector styling */
-.translation-select-wrapper { text-align: center; width: 90%; /* Wrapper takes width */ }
-.translation-select-wrapper label { margin-right: 0.5em; font-size: 0.9em; font-weight: 500; color: #495057; }
-.translation-select-wrapper select {
-    padding: 0.4em 0.6em;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 0.9em;
-    width: 100%; /* Select takes full width of its wrapper */
-    /* Removed max-width: 250px; */
-    box-sizing: border-box; /* Include padding/border in width */
-}
+        /* --- Selectors Area Layout --- */
+        .selectors-area { display: flex; justify-content: space-around; gap: 2em; margin-bottom: 2em; padding: 1em; background-color: #e9ecef; border-radius: 8px; flex-wrap: wrap; }
+        .selector-group { display: flex; flex-direction: column; gap: 0.8em; align-items: center; min-width: 300px; flex: 1; }
+        /* Denomination chooser/pill styling */
+        .denomination-chooser { text-align: center; min-height: 30px; width: 100%; }
+        .denomination-chooser span { display: inline-block; padding: 0.4em 0.8em; margin: 0.2em; background-color: #fff; border: 1px solid #ccc; border-radius: 15px; cursor: pointer; font-size: 0.85em; transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+        .denomination-chooser span:hover:not(.selected) { background-color: #e2e6ea; border-color: #adb5bd; transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+        .denomination-chooser span.selected { background-color: #0056b3; color: #fff; border-color: #004085; font-weight: bold; box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset; }
+        .denomination-chooser .placeholder { font-size: 0.9em; color: #6c757d; }
+        /* Translation selector styling */
+        .translation-select-wrapper { text-align: center; width: 90%; }
+        .translation-select-wrapper label { margin-right: 0.5em; font-size: 0.9em; font-weight: 500; color: #495057; }
+        .translation-select-wrapper select { padding: 0.4em 0.6em; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.9em; width: 100%; box-sizing: border-box; }
 
-/* --- Titles Area Layout --- */
-.titles-area {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Side-by-side default */
-    gap: 2em;
-    margin-bottom: 1em;
-    padding: 0 1em;
-    min-height: 1.5em;
-    align-items: center; /* Vertically center titles if they wrap slightly */
-}
+        /* --- Titles Area Layout (ALWAYS 2 columns) --- */
+        .titles-area { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-bottom: 1em; padding: 0 0.5em; min-height: 1.5em; align-items: start; }
 
-/* --- Comparison Grid Layout --- */
-.comparison-grid { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: auto; gap: 1em 2em; border-top: 2px solid #dee2e6; padding-top: 1em; }
+        /* --- Comparison Grid Layout (Uses minmax for proportional shrinking) --- */
+        .comparison-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-auto-rows: auto; gap: 1em 1.5em; border-top: 2px solid #dee2e6; padding-top: 1em; }
 
-/* --- Grid Cell Styling --- */
-.grid-cell { padding: 1em; background-color: #fdfdff; border: 1px solid #eee; border-radius: 4px; align-self: start; min-height: 50px; }
+        /* --- Grid Cell Styling (Added box-sizing and hyphens) --- */
+        .grid-cell {
+            padding: 1em; background-color: #fdfdff; border: 1px solid #eee; border-radius: 4px; align-self: start; min-height: 50px;
+            overflow-wrap: break-word; /* Wrap long words */
+            hyphens: auto; /* Enable hyphenation */
+            min-width: 0; /* Help grid items shrink */
+            box-sizing: border-box; /* Include padding/border in width calculation */
+        }
 
-/* Content Styling */
-.preamble-text { font-style: italic; color: #555; margin-bottom: 1em; padding: 0.5em; background-color: #f0f0f0; border-left: 3px solid #6c757d; border-radius: 3px; }
-.commandment-text { margin-bottom: 0.8em; padding-left: 0.5em; border-left: 3px solid #007bff; word-wrap: break-word; /* Allow long words to break */ }
-.commandment-text:last-child { margin-bottom: 0; }
-.placeholder { color: #6c757d; font-style: italic; text-align: center; padding: 2em 0; }
-.error-message { color: #dc3545; font-weight: bold; text-align: center; padding: 1em; border: 1px solid #f5c6cb; background-color: #f8d7da; border-radius: 5px;}
-.translation-note { display: block; font-size: 0.75em; color: #aaa; margin-top: 0.8em; text-align: right; }
+        /* Content Styling */
+        .preamble-text { font-style: italic; color: #555; margin-bottom: 1em; padding: 0.5em; background-color: #f0f0f0; border-left: 3px solid #6c757d; border-radius: 3px; max-width: 100%; }
+        .commandment-text { margin-bottom: 0.8em; padding-left: 0.5em; border-left: 3px solid #007bff; max-width: 100%; }
+        .commandment-text:last-child { margin-bottom: 0; }
+        .placeholder { color: #6c757d; font-style: italic; text-align: center; padding: 2em 0; }
+        .error-message { color: #dc3545; font-weight: bold; text-align: center; padding: 1em; border: 1px solid #f5c6cb; background-color: #f8d7da; border-radius: 5px;}
+        .translation-note { display: block; font-size: 0.75em; color: #aaa; margin-top: 0.8em; text-align: right; }
 
-/* --- Responsive Styles --- */
+        /* --- Responsive Styles --- */
 
-/* Medium screens (Tablets / Small Laptops) - Stack Titles Early */
-@media (max-width: 992px) {
-    .titles-area {
-        grid-template-columns: 1fr; /* Stack titles */
-        gap: 0.5em; /* Reduce gap between stacked titles */
-        margin-bottom: 1.5em; /* Add more space below stacked titles */
-    }
-    /* Adjust select width if needed */
-    .translation-select-wrapper {
-        width: 80%; /* Reduce wrapper width slightly */
-    }
-     .selector-group {
-        min-width: 280px; /* Allow selector groups to shrink a bit more */
-    }
-}
+        /* Medium Screens */
+        @media (max-width: 992px) {
+            .container { padding: 1em; }
+            h2 { font-size: 1.1em; }
+            .comparison-grid { gap: 1em 1em; }
+            .selector-group { min-width: 250px; }
+        }
 
+        /* Small screens (Phones) - Stack Selectors and Grid Columns, reduce title size */
+        @media (max-width: 300px) {
+            body { padding: 0.5em; }
+            .container { padding: 0.5em; }
+            h1 { font-size: 1.3em; }
+            /* Titles remain side-by-side, just reduce font size */
+            h2 { font-size: 0.95em; }
 
-/* Small screens (Phones) - Stack Everything Else */
-@media (max-width: 768px) {
-    body { padding: 0.5em; }
-    .container { padding: 0.8em; }
-    h1 { font-size: 1.4em; }
+            /* Stack selector groups */
+            .selectors-area { flex-direction: column; align-items: stretch; gap: 1em; }
+            .selector-group { min-width: unset; width: 100%; box-sizing: border-box; }
+            .translation-select-wrapper { width: 95%; max-width: 400px; margin-left: auto; margin-right: auto; }
+            .denomination-chooser span { font-size: 0.75em; }
 
-    /* Stack selector groups */
-    .selectors-area {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .selector-group {
-        min-width: unset; /* Remove min-width */
-        width: 100%;
-        box-sizing: border-box;
-    }
-    /* Ensure select wrapper takes appropriate width in stacked view */
-    .translation-select-wrapper {
-        width: 95%; /* Allow wrapper more width when stacked */
-        max-width: 400px; /* But prevent it getting huge */
-        margin-left: auto; /* Center wrapper */
-        margin-right: auto; /* Center wrapper */
-    }
+            /* Stack comparison grid columns */
+            .comparison-grid {
+                grid-template-columns: minmax(0, 1fr); /* Define ONLY ONE column */
+                gap: 1em; /* Row gap only */
+            }
 
+            /* --- Force cells into the single column --- */
+            /* Target ALL grid cells within the grid at this breakpoint */
+            .comparison-grid > .grid-cell {
+                /* Explicitly assign ALL cells to the first (and only) column track */
+                grid-column: 1 / span 1;
+                 /* Reset any potentially conflicting inline styles (using !important as a last resort if needed, but try without first) */
+                 /* grid-column: 1 / span 1 !important; */
 
-    /* Stack comparison grid columns */
-    .comparison-grid {
-        grid-template-columns: 1fr; /* Single column layout */
-        gap: 1em; /* Only row gap matters now */
-    }
+                width: 100%; /* Ensure it tries to take full width */
+                box-sizing: border-box; /* Include padding in width */
+                padding: 0.6em;
+                min-width: unset; /* Remove any min-width constraints */
+            }
 
-    /* Adjust cell padding and text sizes */
-    .grid-cell { padding: 0.7em; }
-    .commandment-text { font-size: 0.9em; line-height: 1.5; }
-    .preamble-text { font-size: 0.85em; line-height: 1.5; }
-    .denomination-chooser span { font-size: 0.8em; }
-    }
+            /* Text size adjustments */
+            .commandment-text { font-size: 0.85em; line-height: 1.45; }
+            .preamble-text { font-size: 0.8em; line-height: 1.45; }
+        } /* End @media (max-width: 768px) */
 
     </style>
 </head>
@@ -135,7 +117,6 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
 <body>
 
     <div class="container">
-        <!-- 1. H1 Title Updated -->
         <h1>Ten Commandment Versions</h1>
 
         <!-- Selection Controls Area -->
@@ -156,7 +137,7 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
             </div>
         </div>
 
-        <!-- Titles Area -->
+        <!-- Titles Area (Always 2 columns) -->
         <div class="titles-area">
              <h2 id="title-col1">Version 1</h2>
              <h2 id="title-col2">Version 2</h2>
@@ -180,24 +161,10 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
         document.addEventListener('DOMContentLoaded', () => {
 
             // --- Constants ---
-            const TRANSLATIONS = { // Display names map
-                "ASV": "American Standard Version (ASV)", "DARBY": "Darby Translation (DARBY)",
-                "DRA": "Douay-Rheims 1899 (DRA)", "KJV": "King James Version (KJV)",
-                "WEB": "World English Bible (WEB)", "YLT": "Young's Literal Translation (YLT)",
-                "RVA": "Reina-Valera Antigua (RVA)", "VULGATE": "Biblia Sacra Vulgata (VULGATE)"
-            };
-            const DEFAULT_TRANSLATION_KEY = 'WEB'; // Fallback Key
-            const TRANSLATION_DATA_MAP = {
-                 "WEB": typeof webTranslationData !== 'undefined' ? webTranslationData : null,
-                 "KJV": typeof kjvTranslationData !== 'undefined' ? kjvTranslationData : null,
-                 "ASV": typeof asvTranslationData !== 'undefined' ? asvTranslationData : null,
-                 "DARBY": typeof darbyTranslationData !== 'undefined' ? darbyTranslationData : null,
-                 "DRA": typeof draTranslationData !== 'undefined' ? draTranslationData : null,
-                 "YLT": typeof yltTranslationData !== 'undefined' ? yltTranslationData : null,
-                 "RVA": typeof rvaTranslationData !== 'undefined' ? rvaTranslationData : null,
-                 "VULGATE": typeof vulgateTranslationData !== 'undefined' ? vulgateTranslationData : null
-             };
-             const MAX_COMMANDMENT_NUM = 10;
+            const TRANSLATIONS = { "ASV": "American Standard Version (ASV)", "DARBY": "Darby Translation (DARBY)", "DRA": "Douay-Rheims 1899 (DRA)", "KJV": "King James Version (KJV)", "WEB": "World English Bible (WEB)", "YLT": "Young's Literal Translation (YLT)", "RVA": "Reina-Valera Antigua (RVA)", "VULGATE": "Biblia Sacra Vulgata (VULGATE)" };
+            const DEFAULT_TRANSLATION_KEY = 'WEB';
+            const TRANSLATION_DATA_MAP = { "WEB": typeof webTranslationData !== 'undefined' ? webTranslationData : null, "KJV": typeof kjvTranslationData !== 'undefined' ? kjvTranslationData : null, "ASV": typeof asvTranslationData !== 'undefined' ? asvTranslationData : null, "DARBY": typeof darbyTranslationData !== 'undefined' ? darbyTranslationData : null, "DRA": typeof draTranslationData !== 'undefined' ? draTranslationData : null, "YLT": typeof yltTranslationData !== 'undefined' ? yltTranslationData : null, "RVA": typeof rvaTranslationData !== 'undefined' ? rvaTranslationData : null, "VULGATE": typeof vulgateTranslationData !== 'undefined' ? vulgateTranslationData : null };
+            const MAX_COMMANDMENT_NUM = 10;
 
             // --- State Variables ---
             let selectedDenominationKey1 = null;
@@ -215,7 +182,6 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
             const titleCol2 = document.getElementById('title-col2');
 
             // --- Helper: Shorten Name ---
-            // Used for Denomination Pills and H2 Titles ONLY
             function getShortName(fullName) {
                 if (!fullName) return '';
                 return fullName.replace(/\s*\(.*\)\s*$/, '').trim();
@@ -262,7 +228,6 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
             // --- Helper: Update Display (Grid Logic) ---
             function updateDisplay() {
                 comparisonGrid.innerHTML = ''; // Clear grid
-
                 const result1 = getDenominationData(selectedDenominationKey1, selectedTranslationKey1);
                 const result2 = getDenominationData(selectedDenominationKey2, selectedTranslationKey2);
 
@@ -283,10 +248,10 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
 
                 // Loop through Commandment Numbers
                 for (let i = 1; i <= MAX_COMMANDMENT_NUM; i++) {
-                     // Function to create and populate a cell
                      const createCell = (colNum, result, denominationKey) => {
                         const cell = document.createElement('div');
                         cell.className = 'grid-cell';
+                        // Set inline style for grid column - this will be overridden by CSS below 768px
                         cell.style.gridColumn = `${colNum}`;
                         cell.style.gridRow = `${i}`;
 
@@ -307,11 +272,9 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
                      comparisonGrid.appendChild(createCell(2, result2, selectedDenominationKey2));
                 }
 
-                // Update selected styles in denomination choosers
                 updateChooserSelection(chooserCol1, selectedDenominationKey1);
                 updateChooserSelection(chooserCol2, selectedDenominationKey2);
             } // End updateDisplay
-
 
             // --- Other Helpers and Event Handlers ---
             function updateChooserSelection(chooserElement, selectedKey) {
@@ -319,18 +282,13 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
                      span.classList.toggle('selected', span.dataset.key === selectedKey);
                  });
             }
-
-            // ** VERIFIED: This uses the full name for display **
             function populateTranslationSelect(selectElement) {
                  Object.entries(TRANSLATIONS).forEach(([key, name]) => {
-                     const option = document.createElement('option');
-                     option.value = key; // Value is the key (e.g., 'WEB')
-                     option.textContent = name; // Display text is the FULL name
+                     const option = document.createElement('option'); option.value = key; option.textContent = name;
                      if (key === DEFAULT_TRANSLATION_KEY) option.selected = true;
                      selectElement.appendChild(option);
                  });
              }
-
             function handleDenominationClick(event, columnNumber) {
                 const target = event.target;
                 if (target.tagName === 'SPAN' && target.dataset.key) {
@@ -342,14 +300,12 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
                     updateDisplay();
                 }
             }
-
             function handleTranslationChange(event, columnNumber) {
                 const selectedValue = event.target.value;
                  if (columnNumber === 1) selectedTranslationKey1 = selectedValue;
                  else selectedTranslationKey2 = selectedValue;
                  updateDisplay();
             }
-
 
             // --- Initialization Function ---
             function initializeApp() {
@@ -358,12 +314,8 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
                      comparisonGrid.innerHTML = `<div class="error-message" style="grid-column: 1 / span 2;">Fatal Error: Core data file missing. Cannot initialize application.</div>`;
                      chooserCol1.innerHTML = ''; chooserCol2.innerHTML = ''; return;
                  }
-
-                // Populate Translation Selectors
                 populateTranslationSelect(translationSelectCol1);
                 populateTranslationSelect(translationSelectCol2);
-
-                // Populate Denomination Choosers
                 chooserCol1.innerHTML = ''; chooserCol2.innerHTML = '';
                 const denominationKeys = Object.keys(TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]);
                 denominationKeys.sort((a, b) => {
@@ -371,28 +323,18 @@ footer { text-align: center; margin-top: 3em; padding-top: 1em; border-top: 1px 
                     const nameB = TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]?.[b]?.name || b;
                     return nameA.localeCompare(nameB);
                 });
-
                 denominationKeys.forEach(key => {
                     const fullName = TRANSLATION_DATA_MAP[DEFAULT_TRANSLATION_KEY]?.[key]?.name || key;
-                    // Use shortened name for the pill text
                     const shortName = getShortName(fullName);
-                    // Col 1
                     const span1 = document.createElement('span'); span1.textContent = shortName; span1.dataset.key = key; chooserCol1.appendChild(span1);
-                    // Col 2
                     const span2 = document.createElement('span'); span2.textContent = shortName; span2.dataset.key = key; chooserCol2.appendChild(span2);
                 });
-
-                // Add Event Listeners
                 chooserCol1.addEventListener('click', (event) => handleDenominationClick(event, 1));
                 chooserCol2.addEventListener('click', (event) => handleDenominationClick(event, 2));
                 translationSelectCol1.addEventListener('change', (event) => handleTranslationChange(event, 1));
                 translationSelectCol2.addEventListener('change', (event) => handleTranslationChange(event, 2));
-
-                // Read initial translation selections
                 selectedTranslationKey1 = translationSelectCol1.value;
                 selectedTranslationKey2 = translationSelectCol2.value;
-
-                // Initial render
                 updateDisplay();
             } // End initializeApp
 
