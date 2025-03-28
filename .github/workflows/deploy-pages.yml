@@ -33,8 +33,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3 # Collects files and uploads them as a Pages artifact
         with:
-          # Upload the entire repository content (index.html and the translations folder)
-          # If your site files were in a different folder (e.g., 'dist' or 'public'), you'd specify that here.
+          # Upload the entire repository content from the root directory
+          # This includes index.html, style.css, app.js, and the translations/ folder
           path: '.'
       # No separate build step needed for simple static files
 

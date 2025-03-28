@@ -1,0 +1,260 @@
+/* style.css */
+
+/* --- Basic Styling --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 1em;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow-x: hidden; /* Prevent accidental horizontal scroll */
+}
+h1 {
+    text-align: center;
+    margin-bottom: 1em;
+    color: #003366;
+    font-size: 1.8em;
+}
+/* H2 are comparison titles */
+h2 {
+    margin: 0;
+    font-size: 1.15em;
+    color: #0056b3;
+    padding: 0 0.2em 0.3em 0.2em;
+    text-align: center;
+    font-weight: 600;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+footer {
+    text-align: center;
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: 1px solid #eee;
+    font-size: 0.85em;
+    color: #6c757d;
+}
+
+/* --- Selectors Area Layout --- */
+.selectors-area {
+    display: flex;
+    justify-content: space-around;
+    gap: 2em;
+    margin-bottom: 2em;
+    padding: 1em;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    flex-wrap: wrap;
+}
+.selector-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    align-items: center;
+    min-width: 300px;
+    flex: 1;
+}
+/* Denomination chooser/pill styling */
+.denomination-chooser {
+    text-align: center;
+    min-height: 30px;
+    width: 100%;
+}
+.denomination-chooser span {
+    display: inline-block;
+    padding: 0.4em 0.8em;
+    margin: 0.2em;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.denomination-chooser span:hover:not(.selected) {
+    background-color: #e2e6ea;
+    border-color: #adb5bd;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+.denomination-chooser span.selected {
+    background-color: #0056b3;
+    color: #fff;
+    border-color: #004085;
+    font-weight: bold;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+}
+.denomination-chooser .placeholder {
+    font-size: 0.9em;
+    color: #6c757d;
+}
+.denomination-chooser .error-message {
+    font-size: 0.9em;
+    color: #dc3545;
+    font-style: italic;
+}
+/* Translation selector styling */
+.translation-select-wrapper {
+    text-align: center;
+    width: 90%;
+}
+.translation-select-wrapper label {
+    margin-right: 0.5em;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #495057;
+}
+.translation-select-wrapper select {
+    padding: 0.4em 0.6em;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 0.9em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Titles Area Layout (Stays 2 columns) --- */
+.titles-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    margin-bottom: 1em;
+    padding: 0 0.5em;
+    min-height: 1.5em;
+    align-items: start;
+}
+
+/* --- Comparison Sections Layout --- */
+#comparison-sections {
+     border-top: 2px solid #dee2e6;
+     padding-top: 0;
+     margin-top: 1em;
+}
+.comparison-section {
+    margin-bottom: 0;
+    padding: 0;
+}
+/* Alternating background */
+.comparison-section.bg-even { background-color: #f8f9fa; } /* Light grey */
+.comparison-section.bg-odd { background-color: #ffffff; } /* White */
+
+.section-title { /* Title like "PREAMBLE", "COMMAND 1" */
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #495057;
+    text-align: center;
+    padding: 0.6em 1em;
+    margin: 0;
+    border-bottom: 1px dotted #ced4da;
+    background-color: rgba(233, 236, 239, 0.5);
+    position: sticky; top: 0; z-index: 1;
+}
+.section-content { /* Holds the two columns of text */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* Two columns */
+    gap: 1.5em; /* Gap between columns */
+    padding: 1em;
+    align-items: start; /* Align columns to top */
+}
+.section-column { /* Column for one version's text within a section */
+    min-width: 0; /* Help shrinking */
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Commandment Number Styling REMOVED */
+
+/* Content Text Styling */
+.commandment-text-block { /* Wrapper for text */
+    line-height: 1.5;
+    min-height: 1.5em; /* Ensure block has some height even if empty */
+}
+.preamble-text {
+    font-style: italic;
+    color: #555;
+    max-width: 100%;
+    margin: 0 0 0.5em 0;
+    display: block; /* Takes its own line */
+}
+.commandment-text {
+    margin: 0 0 0.5em 0;
+    padding-left: 0;
+    border-left: none;
+    max-width: 100%;
+    display: block; /* Takes its own line */
+}
+.commandment-text:last-child { margin-bottom: 0; }
+.placeholder { color: #6c757d; font-style: italic; text-align: center; padding: 1em 0; width: 100%;}
+.error-message { color: #dc3545; font-weight: bold; text-align: center; padding: 1em; border: 1px solid #f5c6cb; background-color: #f8d7da; border-radius: 5px; width: 100%;}
+.translation-note { display: block; font-size: 0.70em; color: #aaa; margin-top: 0.8em; text-align: right; width: 100%;}
+
+
+/* --- Responsive Styles --- */
+
+/* Medium Screens (Optional minor adjustments if needed) */
+@media (max-width: 992px) {
+    .container { padding: 1em; }
+    h2 { font-size: 1.1em; }
+    .section-content { gap: 1em; padding: 0.8em; }
+    .selector-group { min-width: 250px; }
+    .section-title { font-size: 0.85em; padding: 0.5em 0.8em; }
+}
+
+
+/* Small screens (Most Phones) - Stack Selectors, reduce title size */
+/* Selectors stack, but main content columns remain side-by-side */
+@media (max-width: 768px) {
+    body { padding: 0.5em; }
+    .container { padding: 0.5em; }
+    h1 { font-size: 1.3em; }
+    h2 { font-size: 0.9em; } /* Titles above comparison */
+
+    /* Stack selector groups */
+    .selectors-area { flex-direction: column; align-items: stretch; gap: 1em; }
+    .selector-group { min-width: unset; width: 100%; box-sizing: border-box; }
+    .translation-select-wrapper { width: 95%; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .denomination-chooser span { font-size: 0.75em; }
+
+    /* Make section title non-sticky */
+     .section-title {
+        font-size: 0.8em;
+        padding: 0.4em 0.6em;
+        position: static; /* Disable sticky on smaller screens */
+    }
+
+    /* Text size adjustments for better fit in narrower columns */
+    .commandment-text { font-size: 0.8em; line-height: 1.4; } /* Smaller text */
+    .preamble-text { font-size: 0.75em; line-height: 1.4; } /* Smaller text */
+    .section-content { padding: 0.5em; gap: 0.8em;} /* Reduce padding/gap */
+    .translation-note { font-size: 0.65em; }
+}
+
+/* VERY Small screens - Stack columns within sections */
+/* This breakpoint now handles stacking the main content columns */
+@media (max-width: 300px) {
+    /* Stack columns *within* each section */
+    .section-content {
+         grid-template-columns: minmax(0, 1fr); /* Single column */
+         gap: 0.8em; /* Gap between stacked columns */
+         padding: 0.5em; /* Consistent padding */
+    }
+    /* Add border between stacked columns */
+    .section-content .section-column:first-child {
+        padding-bottom: 0.8em;
+        border-bottom: 1px dashed #ccc;
+        border-right: none; /* Ensure no right border */
+    }
+     /* Further reduce text size if necessary */
+     .commandment-text { font-size: 0.75em; }
+     .preamble-text { font-size: 0.7em; }
+}
